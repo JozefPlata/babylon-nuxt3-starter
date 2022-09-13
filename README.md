@@ -1,4 +1,4 @@
-# This is a starter kit BabylonJS with Nuxt3
+# This is a starter kit for BabylonJS with Nuxt3
 
 [nuxt 3 documentation](https://v3.nuxtjs.org)
 

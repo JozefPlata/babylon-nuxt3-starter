@@ -1,16 +1,15 @@
 import {
-    ArcRotateCamera, Color3,
+    Color3,
     Engine,
     HemisphericLight,
-    Material,
     Texture,
     Mesh,
     MeshBuilder,
     Scene,
     StandardMaterial,
-    Vector3, Camera, Ray
+    Vector3, Camera
 } from "@babylonjs/core";
-import {Player} from "~/babylon/player/player";
+import {Player} from "~/babylon/player/Player";
 
 export class App {
     private _canvas: HTMLCanvasElement;
@@ -38,6 +37,11 @@ export class App {
                 this._player.position.x += 0.05 * direction.x;
                 this._player.position.z += 0.05 * direction.z;
             }
+        })
+
+        this._scene.onReadyObservable.addOnce(() => {
+            const inputs = this._camera.inputs.attached;
+            console.log(inputs);
         })
 
         this._runRenderLoop();

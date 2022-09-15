@@ -1,4 +1,11 @@
-import {ArcRotateCamera, Camera, Mesh, Scene, TransformNode, Vector3} from "@babylonjs/core";
+import {
+    Camera,
+    Mesh,
+    Scene,
+    TransformNode,
+    Vector3
+} from "@babylonjs/core";
+import {createCamera} from "~/babylon/player/PlayerCamera";
 
 export class Player extends TransformNode {
     private readonly _camera: Camera;
@@ -19,8 +26,6 @@ export class Player extends TransformNode {
     }
 
     private _createPlayerCamera(canvas: HTMLCanvasElement): Camera {
-        const camera: ArcRotateCamera = new ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 3, 10, Vector3.Up(), this._scene);
-        camera.attachControl(canvas, true);
-        return camera;
+        return createCamera('camera', canvas, -Math.PI / 2, Math.PI / 3, 10, Vector3.Up(), this._scene);
     }
 }

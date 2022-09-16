@@ -40,8 +40,7 @@ export class App {
         })
 
         this._scene.onReadyObservable.addOnce(() => {
-            const inputs = this._camera.inputs.attached;
-            console.log(inputs);
+            console.log(this._scene.cameras);
         })
 
         this._runRenderLoop();

@@ -1,11 +1,5 @@
-import {
-    Camera,
-    Mesh,
-    Scene,
-    TransformNode,
-    Vector3
-} from "@babylonjs/core";
-import {createCamera} from "~/babylon/player/PlayerCamera";
+import {Camera, Mesh, Scene, TransformNode, Vector3} from "@babylonjs/core";
+import {PlayerCamera} from "~/babylon/player/PlayerCamera";
 
 export class Player extends TransformNode {
     private readonly _camera: Camera;
@@ -26,6 +20,6 @@ export class Player extends TransformNode {
     }
 
     private _createPlayerCamera(canvas: HTMLCanvasElement): Camera {
-        return createCamera('camera', canvas, -Math.PI / 2, Math.PI / 3, 10, Vector3.Up(), this._scene);
+        return new PlayerCamera('camera', canvas, -Math.PI / 2, Math.PI / 3, 10, Vector3.Up(), this._scene);
     }
 }

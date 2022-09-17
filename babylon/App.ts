@@ -10,6 +10,7 @@ import {
     Vector3, Camera
 } from "@babylonjs/core";
 import {Player} from "~/babylon/player/Player";
+import {Constraint} from "~/babylon/player/Constraint";
 
 export class App {
     private _canvas: HTMLCanvasElement;
@@ -17,6 +18,7 @@ export class App {
     private _scene: Scene;
     private _camera: Camera;
     private readonly _player: Player;
+    private _rotationConstraint: Constraint;
 
     private _keyW: boolean;
 
@@ -38,6 +40,8 @@ export class App {
                 this._player.position.z += 0.05 * direction.z;
             }
         })
+
+        this._rotationConstraint = new Constraint(Player.rotator, this._player.camera);
 
         this._scene.onReadyObservable.addOnce(() => {
             console.log(this._scene.cameras);
@@ -82,6 +86,7 @@ export class App {
     private _runRenderLoop(): void {
         this._engine.runRenderLoop(() => {
             this._scene.render();
+            this._rotationConstraint.rotationType();
         })
     }
 }

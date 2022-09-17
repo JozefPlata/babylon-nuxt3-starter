@@ -1,5 +1,6 @@
 import {IPlayerInput} from "~/babylon/player/IPlayerInput";
 import {ArcRotateCameraPointersInput, IPointerEvent} from "@babylonjs/core";
+import {Player} from "~/babylon/player/Player";
 
 export class PlayerInput implements IPlayerInput {
     rmbPressed: boolean;
@@ -10,21 +11,22 @@ export class PlayerInput implements IPlayerInput {
         const mouseInputs = new ArcRotateCameraPointersInput();
 
         let pointer: IPointerEvent = null;
+        const macBookPointer = 2;
 
         mouseInputs.onButtonDown = evt => {
             pointer = evt;
-            if (pointer.button === 2) {
+            if (pointer.button === macBookPointer) {
                 this.rmbPressed = true;
                 this.rmbReleased = false;
-                console.log('RMB Pressed');
+                Player.mesh.setParent(Player.rotator);
             }
         }
 
         mouseInputs.onButtonUp = () => {
-            if (pointer.button === 2) {
+            if (pointer.button === macBookPointer) {
                 this.rmbPressed = false;
                 this.rmbReleased = true;
-                console.log('RMB Released');
+                Player.mesh.setParent(null);
             }
         }
 

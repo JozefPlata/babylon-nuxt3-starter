@@ -3,15 +3,19 @@ import {PlayerCamera} from "~/babylon/player/PlayerCamera";
 
 export class Player extends TransformNode {
     private readonly _camera: Camera;
-    private _mesh: Mesh;
-    private _input;
+    static mesh: Mesh;
+    static rotator: TransformNode;
 
-    constructor(name: string, mesh: Mesh, canvas: HTMLCanvasElement, scene: Scene, input?) {
+    constructor(name: string, mesh: Mesh, canvas: HTMLCanvasElement, scene: Scene) {
         super(name, scene);
-        this._mesh = mesh;
-        this._mesh.parent = this;
-        this._input = input;
+        Player.mesh = mesh;
+
         this._camera = this._createPlayerCamera(canvas);
+
+        Player.rotator = new TransformNode('rotator', scene);
+
+        Player.mesh.setParent(this)
+        Player.rotator.setParent(this);
         this._camera.parent = this;
     }
 

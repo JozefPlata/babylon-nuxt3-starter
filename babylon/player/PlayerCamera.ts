@@ -1,4 +1,4 @@
-import {ArcRotateCamera, Camera, Scene, Vector3} from "@babylonjs/core";
+import {ArcRotateCamera, Scene, Vector3} from "@babylonjs/core";
 import {PlayerInput} from "~/babylon/player/PlayerInput";
 
 export class PlayerCamera extends ArcRotateCamera{

@@ -1,16 +1,17 @@
 import {ArcRotateCamera, Scene, Vector3} from "@babylonjs/core";
 import {PlayerInput} from "~/babylon/player/PlayerInput";
+import {App} from "~/babylon/App";
+import {Player} from "~/babylon/player/Player";
 
 export class PlayerCamera extends ArcRotateCamera{
     constructor(name: string, canvas: HTMLCanvasElement, alpha: number, beta: number, radius: number, target: Vector3, scene: Scene) {
         super(name, alpha, beta, radius, target, scene)
-        this._initializeInputs();
-        this.attachControl(canvas, true);
+        this.attachControl(App.canvas, true);
     }
 
-    private _initializeInputs(): void {
+    public initializePlayerInputs(player: Player): void {
         this.inputs.removeByType('ArcRotateCameraPointersInput');
-        const playerInput = new PlayerInput();
+        const playerInput = new PlayerInput(player);
         this.inputs.add(playerInput.mouseInputs);
     }
 }

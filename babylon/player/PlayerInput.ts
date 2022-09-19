@@ -7,26 +7,25 @@ export class PlayerInput implements IPlayerInput {
     rmbReleased: boolean;
     private readonly _mouseInputs: ArcRotateCameraPointersInput;
 
-    constructor() {
+    constructor(player: Player) {
         const mouseInputs = new ArcRotateCameraPointersInput();
 
         let pointer: IPointerEvent = null;
-        const macBookPointer = 2;
 
         mouseInputs.onButtonDown = evt => {
             pointer = evt;
-            if (pointer.button === macBookPointer) {
+            if (pointer.button === 2) {
                 this.rmbPressed = true;
                 this.rmbReleased = false;
-                Player.mesh.setParent(Player.rotator);
+                player.mesh.setParent(player.rotator);
             }
         }
 
         mouseInputs.onButtonUp = () => {
-            if (pointer.button === macBookPointer) {
+            if (pointer.button === 2) {
                 this.rmbPressed = false;
                 this.rmbReleased = true;
-                Player.mesh.setParent(null);
+                player.mesh.setParent(player);
             }
         }
 

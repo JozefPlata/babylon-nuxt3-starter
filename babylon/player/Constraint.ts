@@ -1,11 +1,17 @@
 import {Camera, TransformNode} from "@babylonjs/core";
 
 export class Constraint {
-    constructor(public object: TransformNode, public to: Camera) {};
+    private _object: TransformNode;
+    private _to: Camera;
 
-    public rotationType() {
-        this.object.rotation = this.to.absoluteRotation.toEulerAngles();
-        this.object.rotation.x = 0;
-        this.object.rotation.z = 0;
+    constructor(object: TransformNode, to: Camera) {
+        this._to = to;
+        this._object = object;
+    };
+
+    public makeActive() {
+        this._object.rotation = this._to.absoluteRotation.toEulerAngles();
+        this._object.rotation.x = 0;
+        this._object.rotation.z = 0;
     }
 }

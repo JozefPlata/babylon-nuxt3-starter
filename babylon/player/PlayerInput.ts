@@ -1,10 +1,10 @@
 import {IPlayerInput} from "~/babylon/player/IPlayerInput";
-import {ArcRotateCameraPointersInput, IPointerEvent} from "@babylonjs/core";
+import {ArcRotateCameraPointersInput, IPointerEvent, Vector3} from "@babylonjs/core";
 import {Player} from "~/babylon/player/Player";
 
 export class PlayerInput implements IPlayerInput {
-    rmbPressed: boolean;
-    rmbReleased: boolean;
+    public rmbPressed: boolean;
+    public rmbReleased: boolean;
     private readonly _mouseInputs: ArcRotateCameraPointersInput;
 
     constructor(player: Player) {
@@ -18,6 +18,7 @@ export class PlayerInput implements IPlayerInput {
                 this.rmbPressed = true;
                 this.rmbReleased = false;
                 player.mesh.setParent(player.rotator);
+                player.mesh.rotation = Vector3.Zero();
             }
         }
 

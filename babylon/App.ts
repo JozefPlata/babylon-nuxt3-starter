@@ -29,7 +29,7 @@ export class App {
 
         this._setupKeyboardInput();
 
-        this._gameManager.scene.registerBeforeRender(() => {
+        GameManager.Instance.scene.registerBeforeRender(() => {
             if (this._keyW) {
                 const direction: Vector3 = player.camera.getForwardRay(1).direction;
                 player.position.x += 0.05 * direction.x;
@@ -37,7 +37,7 @@ export class App {
             }
         })
 
-        this._gameManager.scene.onReadyObservable.addOnce(() => {})
+        GameManager.Instance.scene.onReadyObservable.addOnce(() => {})
 
         this._runRenderLoop();
     }
@@ -78,8 +78,8 @@ export class App {
 
     private _runRenderLoop(): void {
         this._engine.runRenderLoop(() => {
-            this._gameManager.scene.render();
-            this._gameManager.getPlayer(0).rotationConstraint.makeActive();
+            GameManager.Instance.scene.render();
+            GameManager.Instance.getPlayer(0).rotationConstraint.makeActive();
         })
     }
 }

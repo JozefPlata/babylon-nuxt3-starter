@@ -33,7 +33,7 @@ export class App {
 
         GameManager.Instance.scene.registerBeforeRender(() => {
             if (playerInput.keyForward) {
-                const direction: Vector3 = player.camera.getForwardRay(1).direction;
+                const direction: Vector3 = player.mesh.forward;
                 player.position.x += 0.05 * direction.x;
                 player.position.z += 0.05 * direction.z;
             }

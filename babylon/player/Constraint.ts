@@ -9,7 +9,7 @@ export class Constraint {
         this._object = object;
     };
 
-    public makeActive() {
+    public active() {
         this._object.rotation = this._to.absoluteRotation.toEulerAngles();
         this._object.rotation.x = 0;
         this._object.rotation.z = 0;

@@ -10,14 +10,14 @@ import {
     Vector3
 } from "@babylonjs/core";
 import {GameManager} from "~/babylon/GameManager";
+import {PlayerInput} from "~/babylon/player/PlayerInput";
 
 export class App {
     private static _canvas: HTMLCanvasElement;
     private _engine: Engine;
     private _scene: Scene;
     private _gameManager: GameManager;
-
-    private _keyW: boolean;
+    private _playerInput: PlayerInput;
 
     constructor() {
         this._init();
@@ -25,12 +25,14 @@ export class App {
         this._createScene();
 
         GameManager.Instance.createPlayers(1);
-        const player = GameManager.Instance.players[0];
+        const player = GameManager.Instance.getPlayer(0);
+        const playerInput = GameManager.Instance.getPlayerInput(0);
+        this._playerInput = playerInput;
 
         this._setupKeyboardInput();
 
         GameManager.Instance.scene.registerBeforeRender(() => {
-            if (this._keyW) {
+            if (playerInput.keyForward) {
                 const direction: Vector3 = player.camera.getForwardRay(1).direction;
                 player.position.x += 0.05 * direction.x;
                 player.position.z += 0.05 * direction.z;
@@ -68,18 +70,18 @@ export class App {
 
     private _setupKeyboardInput(): void {
         document.addEventListener('keydown', ev => {
-            if (ev.key == 'w' || ev.key == 'W') this._keyW = true;
+            if (ev.key == 'w' || ev.key == 'W') this._playerInput.keyForward = true;
         })
 
         document.addEventListener('keyup', ev => {
-            if (ev.key == 'w' || ev.key == 'W') this._keyW = false;
+            if (ev.key == 'w' || ev.key == 'W') this._playerInput.keyForward = false;
         })
     }
 
     private _runRenderLoop(): void {
         this._engine.runRenderLoop(() => {
             GameManager.Instance.scene.render();
-            GameManager.Instance.getPlayer(0).rotationConstraint.makeActive();
+            GameManager.Instance.getPlayer(0).rotationConstraint.active();
         })
     }
 }

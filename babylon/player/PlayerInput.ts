@@ -5,6 +5,11 @@ import {Player} from "~/babylon/player/Player";
 export class PlayerInput implements IPlayerInput {
     public rmbPressed: boolean;
     public rmbReleased: boolean;
+    public keyForward: boolean;
+    public keyBackward: boolean;
+    public keyLeft: boolean;
+    public keyRight: boolean;
+
     private readonly _mouseInputs: ArcRotateCameraPointersInput;
 
     constructor(player: Player) {

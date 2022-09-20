@@ -10,6 +10,7 @@ import {
     Vector3
 } from "@babylonjs/core";
 import {GameManager} from "~/babylon/GameManager";
+import {KeyboardInput} from "~/babylon/player/KeyboardInput";
 
 export class App {
     private static _canvas: HTMLCanvasElement;
@@ -29,15 +30,7 @@ export class App {
         const scene = GameManager.Instance.scene;
 
         scene.registerBeforeRender(() => {
-            let direction: Vector3 = Vector3.Zero();
-
-            if (playerInput.keyForward) direction = player.mesh.forward;
-            if (playerInput.keyBackward) direction = player.mesh.forward.scale(-1);
-            if (playerInput.keyLeft) direction = player.mesh.right.scale(-1);
-            if (playerInput.keyRight) direction = player.mesh.right;
-
-            player.position.x += 0.05 * direction.x;
-            player.position.z += 0.05 * direction.z;
+            KeyboardInput.playerMovement(player, playerInput);
         })
 
         GameManager.Instance.scene.onReadyObservable.addOnce(() => {})

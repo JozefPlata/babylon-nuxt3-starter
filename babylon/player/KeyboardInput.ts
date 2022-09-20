@@ -1,5 +1,6 @@
-import {AbstractActionManager, ActionManager, ExecuteCodeAction} from "@babylonjs/core";
+import {AbstractActionManager, ActionManager, ExecuteCodeAction, Vector3} from "@babylonjs/core";
 import {PlayerInput} from "~/babylon/player/PlayerInput";
+import {Player} from "~/babylon/player/Player";
 
 export class KeyboardInput {
     constructor(actionManager: AbstractActionManager, playerInput: PlayerInput) {
@@ -62,5 +63,17 @@ export class KeyboardInput {
             }, () => {
                 playerInput.keyRight = false;
             }));
+    }
+
+    public static playerMovement(player: Player, playerInput: PlayerInput) {
+        let direction: Vector3 = Vector3.Zero();
+
+        if (playerInput.keyForward) direction = player.mesh.forward;
+        if (playerInput.keyBackward) direction = player.mesh.forward.scale(-1);
+        if (playerInput.keyLeft) direction = player.mesh.right.scale(-1);
+        if (playerInput.keyRight) direction = player.mesh.right;
+
+        player.position.x += 0.05 * direction.x;
+        player.position.z += 0.05 * direction.z;
     }
 }

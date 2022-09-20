@@ -30,10 +30,6 @@ export class GameManager {
         return this._players[id][1];
     }
 
-    // get players(): Player[] {
-    //     return this._players[0];
-    // }
-
     public createPlayers(count: number): void {
         this._players = [];
         for (let i=0; i<count; i++) {

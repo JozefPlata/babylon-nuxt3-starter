@@ -10,14 +10,12 @@ import {
     Vector3
 } from "@babylonjs/core";
 import {GameManager} from "~/babylon/GameManager";
-import {PlayerInput} from "~/babylon/player/PlayerInput";
 
 export class App {
     private static _canvas: HTMLCanvasElement;
     private _engine: Engine;
     private _scene: Scene;
     private _gameManager: GameManager;
-    private _playerInput: PlayerInput;
 
     constructor() {
         this._init();
@@ -27,16 +25,19 @@ export class App {
         GameManager.Instance.createPlayers(1);
         const player = GameManager.Instance.getPlayer(0);
         const playerInput = GameManager.Instance.getPlayerInput(0);
-        this._playerInput = playerInput;
 
-        this._setupKeyboardInput();
+        const scene = GameManager.Instance.scene;
 
-        GameManager.Instance.scene.registerBeforeRender(() => {
-            if (playerInput.keyForward) {
-                const direction: Vector3 = player.mesh.forward;
-                player.position.x += 0.05 * direction.x;
-                player.position.z += 0.05 * direction.z;
-            }
+        scene.registerBeforeRender(() => {
+            let direction: Vector3 = Vector3.Zero();
+
+            if (playerInput.keyForward) direction = player.mesh.forward;
+            if (playerInput.keyBackward) direction = player.mesh.forward.scale(-1);
+            if (playerInput.keyLeft) direction = player.mesh.right.scale(-1);
+            if (playerInput.keyRight) direction = player.mesh.right;
+
+            player.position.x += 0.05 * direction.x;
+            player.position.z += 0.05 * direction.z;
         })
 
         GameManager.Instance.scene.onReadyObservable.addOnce(() => {})
@@ -66,16 +67,6 @@ export class App {
         groundMaterial.diffuseTexture = groundTexture;
         groundMaterial.diffuseColor = new Color3(0.5, 1, 0.5);
         ground.material = groundMaterial;
-    }
-
-    private _setupKeyboardInput(): void {
-        document.addEventListener('keydown', ev => {
-            if (ev.key == 'w' || ev.key == 'W') this._playerInput.keyForward = true;
-        })
-
-        document.addEventListener('keyup', ev => {
-            if (ev.key == 'w' || ev.key == 'W') this._playerInput.keyForward = false;
-        })
     }
 
     private _runRenderLoop(): void {

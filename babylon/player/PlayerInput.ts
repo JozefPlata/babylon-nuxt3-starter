@@ -1,6 +1,13 @@
 import {IPlayerInput} from "~/babylon/player/IPlayerInput";
-import {ArcRotateCameraPointersInput, IPointerEvent, Vector3} from "@babylonjs/core";
+import {
+    ActionManager,
+    ArcRotateCameraPointersInput,
+    IPointerEvent,
+    Vector3
+} from "@babylonjs/core";
 import {Player} from "~/babylon/player/Player";
+import {GameManager} from "~/babylon/GameManager";
+import {KeyboardInput} from "~/babylon/player/KeyboardInput";
 
 export class PlayerInput implements IPlayerInput {
     public rmbPressed: boolean;
@@ -11,8 +18,18 @@ export class PlayerInput implements IPlayerInput {
     public keyRight: boolean;
 
     private readonly _mouseInputs: ArcRotateCameraPointersInput;
+    private readonly _keyboardInput: KeyboardInput;
 
     constructor(player: Player) {
+        this._keyboardInput = this._setupKeyboardInput(player);
+        this._mouseInputs = this._setupMouseInputs(player);
+    }
+
+    get mouseInputs() {
+        return this._mouseInputs;
+    }
+
+    private _setupMouseInputs(player: Player): ArcRotateCameraPointersInput {
         const mouseInputs = new ArcRotateCameraPointersInput();
 
         let pointer: IPointerEvent = null;
@@ -35,10 +52,12 @@ export class PlayerInput implements IPlayerInput {
             }
         }
 
-        this._mouseInputs = mouseInputs;
+        return mouseInputs;
     }
 
-    get mouseInputs() {
-        return this._mouseInputs;
+    private _setupKeyboardInput(player: Player): KeyboardInput {
+        const scene = GameManager.Instance.scene;
+        scene.actionManager = new ActionManager(GameManager.Instance.scene);
+        return new KeyboardInput(scene.actionManager, this);
     }
 }

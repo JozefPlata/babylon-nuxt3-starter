@@ -68,10 +68,24 @@ export class KeyboardInput {
     public static playerMovement(player: Player, playerInput: PlayerInput) {
         let direction: Vector3 = Vector3.Zero();
 
-        if (playerInput.keyForward) direction = player.mesh.forward;
-        if (playerInput.keyBackward) direction = player.mesh.forward.scale(-1);
-        if (playerInput.keyLeft) direction = player.mesh.right.scale(-1);
-        if (playerInput.keyRight) direction = player.mesh.right;
+        if (playerInput.keyForward) {
+            direction = player.mesh.forward;
+            if (playerInput.keyRight) {
+                const d: Vector3 = direction;
+                const r: Vector3 = player.mesh.right;
+                direction = new Vector3(d.x + r.x, d.y + r.y, d.z + r.z);
+                direction = direction.normalize();
+            } else if (playerInput.keyLeft) {
+                const d: Vector3 = direction;
+                const l: Vector3 = player.mesh.right.scale(-1);
+                direction = new Vector3(d.x + l.x, d.y + l.y, d.z + l.z);
+                direction = direction.normalize();
+            }
+        } else {
+            if (playerInput.keyBackward) direction = player.mesh.forward.scale(-1);
+            if (playerInput.keyLeft) direction = player.mesh.right.scale(-1);
+            if (playerInput.keyRight) direction = player.mesh.right;
+        }
 
         player.position.x += 0.05 * direction.x;
         player.position.z += 0.05 * direction.z;

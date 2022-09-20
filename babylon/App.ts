@@ -33,7 +33,7 @@ export class App {
             KeyboardInput.playerMovement(player, playerInput);
         })
 
-        GameManager.Instance.scene.onReadyObservable.addOnce(() => {})
+        scene.onReadyObservable.addOnce(() => {})
 
         this._runRenderLoop();
     }

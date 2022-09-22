@@ -5,6 +5,7 @@ import {PlayerInput} from "~/babylon/player/PlayerInput";
 
 export class GameManager {
     private static _instance: GameManager;
+    public _playerCount: number;
     private _scene: Scene;
     private _players: Array<[Player, PlayerInput]>;
 
@@ -20,6 +21,13 @@ export class GameManager {
 
     set scene(scene:Scene) {
         this._scene = scene;
+    }
+
+    set playerCount(count: number) {
+        this._playerCount = count;
+    }
+    get playerCount(): number {
+        return this._playerCount;
     }
 
     public getPlayer(id: number): Player {

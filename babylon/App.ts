@@ -11,6 +11,8 @@ import {
 } from "@babylonjs/core";
 import {GameManager} from "~/babylon/GameManager";
 import {KeyboardInput} from "~/babylon/player/KeyboardInput";
+import {Player} from "~/babylon/player/Player";
+import {PlayerInput} from "~/babylon/player/PlayerInput";
 
 export class App {
     private static _canvas: HTMLCanvasElement;
@@ -19,21 +21,15 @@ export class App {
     private _gameManager: GameManager;
 
     constructor() {
-        this._init();
+        const worldScene = this._init();
 
-        this._createScene();
+        this._createWorld();
 
-        GameManager.Instance.createPlayers(1);
-        const player = GameManager.Instance.getPlayer(0);
-        const playerInput = GameManager.Instance.getPlayerInput(0);
+        const players = this._createPlayers(1);
 
-        const scene = GameManager.Instance.scene;
+        this._setupPlayersMovement(players, worldScene);
 
-        scene.registerBeforeRender(() => {
-            KeyboardInput.playerMovement(player, playerInput);
-        })
-
-        scene.onReadyObservable.addOnce(() => {})
+        worldScene.onReadyObservable.addOnce(() => {})
 
         this._runRenderLoop();
     }
@@ -42,14 +38,15 @@ export class App {
         return App._canvas;
     }
 
-    private _init(): void {
+    private _init(): Scene {
         App._canvas = <HTMLCanvasElement> document.getElementById('babylonCanvas');
         this._engine = new Engine(App.canvas, true);
         this._gameManager = GameManager.Instance;
         this._gameManager.scene = new Scene(this._engine);
+        return this._gameManager.scene;
     }
 
-    private _createScene(): void {
+    private _createWorld(): void {
         const light: HemisphericLight = new HemisphericLight('light', new Vector3(1, 1, 0.75), this._scene);
         light.intensity = 0.7;
         const ground: Mesh = MeshBuilder.CreateGround('ground', { width:100, height:100 }, this._scene);
@@ -60,6 +57,27 @@ export class App {
         groundMaterial.diffuseTexture = groundTexture;
         groundMaterial.diffuseColor = new Color3(0.5, 1, 0.5);
         ground.material = groundMaterial;
+    }
+
+    private _createPlayers(count: number): Array<{player: Player, playerInput: PlayerInput}> {
+        GameManager.Instance.playerCount = count;
+        GameManager.Instance.createPlayers(GameManager.Instance.playerCount);
+        const players = [];
+        for (let i=0; i<count; i++) {
+            players.push({
+                player: GameManager.Instance.getPlayer(0),
+                playerInput: GameManager.Instance.getPlayerInput(0)
+            });
+        }
+        return players;
+    }
+
+    private _setupPlayersMovement(players: Array<{player: Player, playerInput: PlayerInput}>, scene: Scene) {
+        scene.registerBeforeRender(() => {
+            players.forEach(value => {
+                KeyboardInput.playerMovement(value.player, value.playerInput);
+            })
+        })
     }
 
     private _runRenderLoop(): void {

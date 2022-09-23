@@ -33,5 +33,6 @@ onMounted(() => {
   overflow: unset;
   border: none !important;
   outline: none !important;
+  touch-action: none;
 }
 </style>

@@ -6,7 +6,7 @@ import {
     Vector3
 } from "@babylonjs/core";
 import {Player} from "~/babylon/player/Player";
-import {GameManager} from "~/babylon/GameManager";
+import {GameManager} from "~/babylon/game/GameManager";
 import {KeyboardInput} from "~/babylon/player/KeyboardInput";
 
 export class PlayerInput implements IPlayerInput {

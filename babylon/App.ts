@@ -1,70 +1,15 @@
-import {Engine, Scene} from "@babylonjs/core";
-import {GameManager} from "~/babylon/GameManager";
-import {KeyboardInput} from "~/babylon/player/KeyboardInput";
-import {Player} from "~/babylon/player/Player";
-import {PlayerInput} from "~/babylon/player/PlayerInput";
-import {World} from "~/babylon/world/World";
+import {Game} from "~/babylon/game/Game";
 
 export class App {
     private static _canvas: HTMLCanvasElement;
-    private _engine: Engine;
-    private _gameManager: GameManager;
 
     constructor() {
-        const worldScene = this._init();
+        App._canvas = <HTMLCanvasElement> document.getElementById('babylon-canvas');
 
-        this._createWorld(worldScene);
-
-        const players = this._createPlayers(1);
-
-        this._setupPlayersMovement(players, worldScene);
-
-        worldScene.onReadyObservable.addOnce(() => {});
-
-        this._runRenderLoop();
+        new Game();
     }
 
     public static get canvas(): HTMLCanvasElement {
         return App._canvas;
-    }
-
-    private _init(): Scene {
-        App._canvas = <HTMLCanvasElement> document.getElementById('babylon-canvas');
-        this._engine = new Engine(App.canvas, true);
-        this._gameManager = GameManager.Instance;
-        this._gameManager.scene = new Scene(this._engine);
-        return this._gameManager.scene;
-    }
-
-    private _createWorld(scene: Scene): void {
-        new World(scene);
-    }
-
-    private _createPlayers(count: number): Array<{player: Player, playerInput: PlayerInput}> {
-        GameManager.Instance.playerCount = count;
-        GameManager.Instance.createPlayers(GameManager.Instance.playerCount);
-        const players = [];
-        for (let i=0; i<count; i++) {
-            players.push({
-                player: GameManager.Instance.getPlayer(0),
-                playerInput: GameManager.Instance.getPlayerInput(0)
-            });
-        }
-        return players;
-    }
-
-    private _setupPlayersMovement(players: Array<{player: Player, playerInput: PlayerInput}>, scene: Scene) {
-        scene.registerBeforeRender(() => {
-            players.forEach(value => {
-                KeyboardInput.playerMovement(value.player, value.playerInput);
-            })
-        })
-    }
-
-    private _runRenderLoop(): void {
-        this._engine.runRenderLoop(() => {
-            GameManager.Instance.scene.render();
-            GameManager.Instance.getPlayer(0).rotationConstraint.active();
-        })
     }
 }

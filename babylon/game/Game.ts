@@ -5,13 +5,15 @@ import {Player} from "~/babylon/player/Player";
 import {PlayerInput} from "~/babylon/player/PlayerInput";
 import {KeyboardInput} from "~/babylon/player/KeyboardInput";
 import {App} from "~/babylon/App";
+import {Debug, DEBUG_MODE} from "~/babylon/game/DEBUG_MODE";
 
 export class Game {
     private _engine: Engine;
     private _gameManager: GameManager;
 
-    constructor() {
-        const launchTime = Date.now();
+    constructor(debug_mode: DEBUG_MODE, debug: Debug) {
+
+        if (debug_mode !== 0 ) debug.appStartTime = Date.now();
 
         const worldScene = this._init();
 
@@ -26,8 +28,10 @@ export class Game {
         this._handleWindowResizing();
 
         worldScene.onReadyObservable.addOnce(() => {
-            const finishedTime = Date.now() - launchTime;
-            console.log(`Launched within ${finishedTime/1000} seconds`);
+            if (debug_mode !== 0) {
+                debug.appFinishTime = Date.now() - debug.appStartTime;
+                console.log(`Launched within ${debug.appFinishTime/1000} seconds`);
+            }
         });
     }
 

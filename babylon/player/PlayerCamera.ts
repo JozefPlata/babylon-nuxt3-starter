@@ -7,7 +7,7 @@ export class PlayerCamera extends ArcRotateCamera{
     private _inputs: PlayerInput;
 
     constructor(name: string, canvas: HTMLCanvasElement, alpha: number, beta: number, radius: number, target: Vector3, scene: Scene) {
-        super(name, alpha, beta, radius, target, scene)
+        super(name, alpha, beta, radius, target, scene);
         this.attachControl(App.canvas, true);
     }
 

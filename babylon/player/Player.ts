@@ -13,12 +13,10 @@ export class Player extends TransformNode {
         this._mesh = mesh;
 
         this._camera = this._createPlayerCamera(canvas);
-
         this._rotator = new TransformNode('rotator', scene);
-
         this._rotationConstraint = new Constraint(this._rotator, this._camera);
 
-        this._mesh.setParent(this)
+        this._mesh.setParent(this);
         this._rotator.setParent(this);
         this._camera.parent = this;
     }

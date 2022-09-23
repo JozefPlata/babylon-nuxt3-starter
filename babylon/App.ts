@@ -29,7 +29,7 @@ export class App {
 
         this._setupPlayersMovement(players, worldScene);
 
-        worldScene.onReadyObservable.addOnce(() => {})
+        worldScene.onReadyObservable.addOnce(() => {});
 
         this._runRenderLoop();
     }

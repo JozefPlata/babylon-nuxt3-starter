@@ -26,6 +26,7 @@ export class GameManager {
     set playerCount(count: number) {
         this._playerCount = count;
     }
+
     get playerCount(): number {
         return this._playerCount;
     }

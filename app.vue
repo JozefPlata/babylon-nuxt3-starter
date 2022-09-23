@@ -1,6 +1,4 @@
 <template>
-  <div>
-    <Babylon />
-  </div>
+  <Babylon />
 </template>
 

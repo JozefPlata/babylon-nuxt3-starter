@@ -19,6 +19,18 @@ export class Character extends TransformNode {
         this._rotator.setParent(this);
         constraintTarget.parent = this;
     }
+
+    get model(): Mesh {
+        return this._model;
+    }
+
+    get rotator(): TransformNode {
+        return this._rotator;
+    }
+
+    get rotationConstraint(): Constraint {
+        return this._rotationConstraint;
+    }
 }
 
 export enum CharacterType {

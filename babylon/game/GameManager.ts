@@ -1,5 +1,5 @@
 import {Player} from "~/babylon/player/Player";
-import {MeshBuilder, Scene} from "@babylonjs/core";
+import {MeshBuilder, Scene, Vector3} from "@babylonjs/core";
 import {App} from "~/babylon/App";
 import {PlayerInput} from "~/babylon/player/PlayerInput";
 
@@ -45,7 +45,7 @@ export class GameManager {
             const mesh = MeshBuilder.CreateGoldberg('goldberg', { size: 2 }, this._scene);
             mesh.position.set(0, 1, 0);
 
-            const player = new Player(`player_${i}`, mesh, App.canvas, this._scene);
+            const player = new Player(`player_${i}`, mesh, Vector3.Zero(), this._scene);
             player.camera.initializePlayerInputs(player);
             const playerInput = player.camera.input;
 

@@ -39,8 +39,8 @@ export class PlayerInput implements IPlayerInput {
             if (pointer.button === 2) {
                 this.rmbPressed = true;
                 this.rmbReleased = false;
-                player.mesh.setParent(player.rotator);
-                player.mesh.rotation = Vector3.Zero();
+                player.model.setParent(player.rotator);
+                player.model.rotation = Vector3.Zero();
             }
         }
 
@@ -48,7 +48,7 @@ export class PlayerInput implements IPlayerInput {
             if (pointer.button === 2) {
                 this.rmbPressed = false;
                 this.rmbReleased = true;
-                player.mesh.setParent(player);
+                player.model.setParent(player);
             }
         }
 
